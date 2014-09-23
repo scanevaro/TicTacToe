@@ -1,0 +1,375 @@
+TextureAtlas.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+planets/missions/Saturn
+  rotate: false
+  xy: 722, 128
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+projectiles/bullet1R
+  rotate: false
+  xy: 150, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+planets/missions/Neptune
+  rotate: false
+  xy: 640, 128
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+planets/missions/mars
+  rotate: false
+  xy: 2, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+snakes/snake_1_body_angled
+  rotate: false
+  xy: 402, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+snakes/snake_2_head
+  rotate: false
+  xy: 528, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+planets/missions/Jupiter
+  rotate: false
+  xy: 478, 128
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+planets/missions/Venus
+  rotate: false
+  xy: 926, 128
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+gui/missionbutton
+  rotate: false
+  xy: 328, 128
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+Tiles/obstacle
+  rotate: false
+  xy: 170, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/bullet
+  rotate: false
+  xy: 738, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/teleport
+  rotate: false
+  xy: 86, 332
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/compass
+  rotate: false
+  xy: 780, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+Tiles/laser
+  rotate: false
+  xy: 128, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/old/compass
+  rotate: false
+  xy: 948, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+snakes/snake_1_body
+  rotate: false
+  xy: 360, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+animations/laser_strip9
+  rotate: false
+  xy: 2, 86
+  size: 360, 40
+  orig: 360, 40
+  offset: 0, 0
+  index: -1
+gui/menu/button-disabled
+  rotate: false
+  xy: 124, 128
+  size: 66, 34
+  orig: 66, 34
+  offset: 0, 0
+  index: -1
+snakes/snake_1_tail
+  rotate: false
+  xy: 486, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/life
+  rotate: false
+  xy: 864, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+snakes/snake_3_head
+  rotate: false
+  xy: 612, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/old/Bullet2
+  rotate: false
+  xy: 906, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+planets/missions/mercury
+  rotate: false
+  xy: 44, 290
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+Tiles/old/glass_old
+  rotate: false
+  xy: 212, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+snakes/snake_2_tail
+  rotate: false
+  xy: 570, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/Checkpoint
+  rotate: false
+  xy: 696, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/speed_up
+  rotate: false
+  xy: 44, 332
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/key
+  rotate: false
+  xy: 822, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+Tiles/turret
+  rotate: false
+  xy: 254, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+projectiles/bullet1_sh_L
+  rotate: false
+  xy: 234, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+projectiles/old/bullet1
+  rotate: false
+  xy: 318, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+animations/coin_strip20
+  rotate: false
+  xy: 2, 44
+  size: 800, 40
+  orig: 800, 40
+  offset: 0, 0
+  index: -1
+upgrades/bullet2
+  rotate: false
+  xy: 150, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+Tiles/glass
+  rotate: false
+  xy: 86, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+snakes/snake_3_tail
+  rotate: false
+  xy: 654, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+planets/missions/Uranus
+  rotate: false
+  xy: 844, 128
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+projectiles/bullet1T
+  rotate: false
+  xy: 192, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+projectiles/bullet1_sh_R
+  rotate: false
+  xy: 276, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+gui/menu/button-down
+  rotate: false
+  xy: 192, 128
+  size: 66, 34
+  orig: 66, 34
+  offset: 0, 0
+  index: -1
+gui/shop
+  rotate: false
+  xy: 436, 128
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+projectiles/bullet1L
+  rotate: false
+  xy: 108, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+upgrades/old/speed_up
+  rotate: false
+  xy: 2, 332
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+Tiles/arrow_blue
+  rotate: false
+  xy: 2, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+gui/menu/button
+  rotate: false
+  xy: 260, 128
+  size: 66, 34
+  orig: 66, 34
+  offset: 0, 0
+  index: -1
+animations/turret_strip14
+  rotate: false
+  xy: 364, 86
+  size: 560, 40
+  orig: 560, 40
+  offset: 0, 0
+  index: -1
+gui/button_template
+  rotate: false
+  xy: 2, 128
+  size: 120, 40
+  orig: 120, 40
+  offset: 0, 0
+  index: -1
+animations/finish_strip10
+  rotate: false
+  xy: 804, 44
+  size: 200, 40
+  orig: 200, 40
+  offset: 0, 0
+  index: -1
+gui/null_terminator
+  rotate: false
+  xy: 370, 128
+  size: 64, 96
+  orig: 64, 96
+  offset: 0, 0
+  index: 0
+projectiles/bullet1B
+  rotate: false
+  xy: 66, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+planets/missions/earth
+  rotate: false
+  xy: 968, 128
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+snakes/snake_1_head
+  rotate: false
+  xy: 444, 290
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+animations/Mercurius_strip13
+  rotate: false
+  xy: 296, 2
+  size: 260, 20
+  orig: 260, 20
+  offset: 0, 0
+  index: -1
+Tiles/arrow_red
+  rotate: false
+  xy: 44, 2
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1

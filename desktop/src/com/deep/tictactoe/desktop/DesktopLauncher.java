@@ -2,11 +2,13 @@ package com.deep.tictactoe.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.deep.tictactoe.Main;
+import com.deeep.core.system.Core;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Main(), config);
-	}
+    public static void main(String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.width = 800;
+        config.height = 600;
+        new LwjglApplication(new Core(false, false), config);
+    }
 }
