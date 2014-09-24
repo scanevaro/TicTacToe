@@ -20,8 +20,9 @@ public class  EntityTypes {
     static {
         Logger.getInstance().system(EntityTypes.class, "Registering entities. . . ");
         registerEntity(Wall.class);
-        //TODO
         registerEntity(TestEntity.class);
+        registerEntity(MoveCross.class);
+        registerEntity(MoveZero.class);
     }
 
     private static void registerEntity(Class<? extends Entity> claz) {

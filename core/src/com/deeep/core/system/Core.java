@@ -80,7 +80,7 @@ public class Core extends AbstractGame {
             if (host) {
                 serverLoop.update(deltaTime);
             } else {
-                Camera.getInstance().update(deltaTime);
+                //Camera.getInstance().update(deltaTime);
                 clientLoop.update(deltaTime);
                 networkController.update(deltaTime);
             }

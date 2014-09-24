@@ -16,36 +16,61 @@ import com.deeep.core.system.Constants;
  * To change this template use File | Settings | File Templates.
  */
 public class Camera {
-    /** The singleton instance */
+
+    /**
+     * The singleton instance
+     */
     private static Camera ourInstance = new Camera();
-    /** The frustum width and height. These are the blocks showed on screen */
-    private final float FRUSTUM_WIDTH = Constants.VIRTUAL_WIDTH / (Constants.BLOCK_SIZE * Constants.SCALE);
-    private final float FRUSTUM_HEIGHT = Constants.VIRTUAL_HEIGHT / (Constants.BLOCK_SIZE * Constants.SCALE);
-    /** The previous x and y of the focus */
+    /**
+     * The frustum width and height. These are the blocks showed on screen
+     */
+    private final float FRUSTUM_WIDTH = Constants.VIRTUAL_WIDTH;
+    private final float FRUSTUM_HEIGHT = Constants.VIRTUAL_HEIGHT;
+    /**
+     * The previous x and y of the focus
+     */
     private float previousFocusY = 0;
     private float previousFocusX = 0;
-    /** The amount the camera focus should deviate from the focus entity */
+    /**
+     * The amount the camera focus should deviate from the focus entity
+     */
     private float offsetX;
     private float offsetY;
-    /** The current position of the camera */
+    /**
+     * The current position of the camera
+     */
     private float x;
     private float y;
-    /** 2 points to make the boundary box */
+    /**
+     * 2 points to make the boundary box
+     */
     private Vector3 point1;
     private Vector3 point2;
-    /** The boundary box itself */
+    /**
+     * The boundary box itself
+     */
     private BoundingBox boundingBox;
-    /** If the camera is in the hud */
+    /**
+     * If the camera is in the hud
+     */
     private boolean inHud = false;
-    /** The camera controlling the viewing */
+    /**
+     * The camera controlling the viewing
+     */
     private OrthographicCamera gameCam;
-    /** The camera for the hud stuff */
+    /**
+     * The camera for the hud stuff
+     */
     private OrthographicCamera hudCam;
-    /** The reference to the frustum */
+    /**
+     * The reference to the frustum
+     */
     private Frustum frustum;
     private Entity focus;
 
-    /** Default constructor */
+    /**
+     * Default constructor
+     */
     private Camera() {
         boundingBox = new BoundingBox();
         point1 = new Vector3(0, 0, 0);
@@ -135,7 +160,9 @@ public class Camera {
         return false;
     }
 
-    /** switches to the HUD TODO do something here */
+    /**
+     * switches to the HUD TODO do something here
+     */
     public void switchToHud() {
         this.inHud = true;
     }
@@ -154,7 +181,7 @@ public class Camera {
      * @return x value of touch in floats
      */
     public float getTouchUnitX() {
-        return x + (float) Gdx.input.getX() / (Constants.BLOCK_SIZE * Constants.SCALE) - (Constants.VIRTUAL_WIDTH / (Constants.BLOCK_SIZE * Constants.SCALE) / 2);
+        return x + (float) Gdx.input.getX() / (Constants.SCALE) - (Constants.VIRTUAL_WIDTH / (Constants.SCALE) / 2);
     }
 
     public int getTouchPixelX() {
@@ -167,7 +194,7 @@ public class Camera {
      * @return y value of touch in floats
      */
     public float getTouchUnitY() {
-        return y + (Gdx.graphics.getHeight() - (float) Gdx.input.getY()) / (Constants.BLOCK_SIZE * Constants.SCALE) - (Constants.VIRTUAL_HEIGHT / (Constants.BLOCK_SIZE * Constants.SCALE) / 2);
+        return y + (Gdx.graphics.getHeight() - (float) Gdx.input.getY()) / (Constants.SCALE) - (Constants.VIRTUAL_HEIGHT / (Constants.SCALE) / 2);
     }
 
     public int getTouchPixelY() {

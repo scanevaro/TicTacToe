@@ -76,7 +76,7 @@ public abstract class Manager {
                     shapeRenderer.setColor(Color.GREEN);
                 shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                shapeRenderer.rect(entity.getX() * Constants.BLOCK_SIZE, entity.getY() * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE, Constants.BLOCK_SIZE);
+                //TODO get width and height of object and draw rect
                 shapeRenderer.end();
             }
         }

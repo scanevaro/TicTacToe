@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -19,6 +20,7 @@ import com.deeep.core.network.mutual.packets.EntityCreationPacket;
 import com.deeep.core.network.mutual.packets.ReceivedPacket;
 import com.deeep.core.system.Constants;
 import com.deeep.core.system.Core;
+import com.deeep.core.util.Camera;
 import com.deeep.core.util.Logger;
 
 
@@ -30,6 +32,10 @@ import com.deeep.core.util.Logger;
  * To change this template use File | Settings | File Templates.
  */
 public class GameScreen implements Screen {
+    /**
+     * The camera controlling the viewing
+     */
+    private OrthographicCamera cam;
     /**
      * The spritebatch to draw everything to
      */
@@ -64,8 +70,15 @@ public class GameScreen implements Screen {
         Chat chat = new Chat(3, 80, true, 40, 8);
         canvas.addElement(chat);
         shapeRenderer = new ShapeRenderer();
+
         spriteBatch = new SpriteBatch(5);           //TODO tune this
         world = new World();
+
+        cam = new OrthographicCamera(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
+        cam.position.set(Constants.VIRTUAL_WIDTH / 2, Constants.VIRTUAL_HEIGHT / 2, 0);
+
+        shapeRenderer.setProjectionMatrix(cam.combined);
+
         clientLoop.addListener(new PacketListener(EntityCreationPacket.class, new PacketListener.PacketAction() {
             @Override
             public void action(ReceivedPacket receivedPacket) {
@@ -89,11 +102,13 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
+        cam.update();
         Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setProjectionMatrix(cam.combined);
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.rect(0, 0, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
         shapeRenderer.end();
         update(delta);
         draw();
@@ -117,8 +132,22 @@ public class GameScreen implements Screen {
      * Drawing happens here
      */
     public void draw() {
+        int rectSize = 0;
+        if (Constants.VIRTUAL_WIDTH > Constants.VIRTUAL_HEIGHT) {
+            rectSize = (int) Constants.VIRTUAL_WIDTH;
+        } else {
+            rectSize = (int) Constants.VIRTUAL_HEIGHT;
+        }
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
+        for (int i = 0; i < 4; i++) {
+            shapeRenderer.line(i * rectSize / 4, 0, i * rectSize / 4, rectSize);
+            shapeRenderer.line(0, i * rectSize / 4, rectSize, i * rectSize / 4);
+        }
+        shapeRenderer.end();
         world.draw(spriteBatch);
-        canvas.draw(spriteBatch);
+        //canvas.draw(spriteBatch);
     }
 
     /**
@@ -143,7 +172,7 @@ public class GameScreen implements Screen {
         float w = Constants.VIRTUAL_WIDTH * scale;
         float h = Constants.VIRTUAL_HEIGHT * scale;
         viewport = new Rectangle(crop.x, crop.y, w, h);
-        canvas.resize((int) viewport.width, (int) viewport.height);
+        //canvas.resize((int) viewport.width, (int) viewport.height);
     }
 
     /**
