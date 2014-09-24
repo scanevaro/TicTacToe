@@ -25,7 +25,7 @@ public abstract class Entity extends Element {
     private boolean changed = true;
     private ArrayList<Collide> collisionListeners;
     private int previousMapX, previousMapY;
-    private int mapX, mapY;
+    protected int mapX, mapY;
     private Map map;
     private int type = -1;
 
