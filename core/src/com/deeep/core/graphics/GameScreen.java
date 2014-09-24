@@ -9,18 +9,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.deeep.core.network.client.ClientLoop;
-import com.deeep.core.network.mutual.PacketListener;
-import com.deeep.core.network.mutual.packets.PositionPacket;
 import com.deeep.core.entity.World;
 import com.deeep.core.entity.abstraction.Manager;
 import com.deeep.core.gui.Canvas;
 import com.deeep.core.gui.Chat;
+import com.deeep.core.network.client.ClientLoop;
+import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.EntityCreationPacket;
+import com.deeep.core.network.mutual.packets.PositionPacket;
 import com.deeep.core.network.mutual.packets.ReceivedPacket;
 import com.deeep.core.system.Constants;
 import com.deeep.core.system.Core;
-import com.deeep.core.util.Camera;
 import com.deeep.core.util.Logger;
 
 
@@ -180,7 +179,7 @@ public class GameScreen implements Screen {
      */
     @Override
     public void show() {
-        //logger.debug(this.getClass(), "Showing");
+        logger.debug(((Object) this).getClass(), "Showing");
     }
 
     /**
@@ -209,6 +208,6 @@ public class GameScreen implements Screen {
      */
     @Override
     public void dispose() {
-        //logger.debug(this.getClass(), "Disposing");
+        logger.debug(((Object) this).getClass(), "Disposing");
     }
 }

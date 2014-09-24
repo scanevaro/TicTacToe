@@ -12,9 +12,13 @@ import com.badlogic.gdx.Screen;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class AbstractGame implements ApplicationListener {
-    /** Logger instances */
+    /**
+     * Logger instances
+     */
     protected Logger logger = Logger.getInstance();
-    /** The screen to work with */
+    /**
+     * The screen to work with
+     */
     private Screen screen;
 
     /**
@@ -26,11 +30,13 @@ public abstract class AbstractGame implements ApplicationListener {
      */
     @Override
     public void resize(int width, int height) {
-        logger.system(this.getClass(), "Resize to: " + width + " x " + height);
+        logger.system(((Object) this).getClass(), "Resize to: " + width + " x " + height);
         if (screen != null) screen.resize(width, height);
     }
 
-    /** Called when the {@link com.badlogic.gdx.Application} should render itself. */
+    /**
+     * Called when the {@link com.badlogic.gdx.Application} should render itself.
+     */
     @Override
     public void render() {
         render(Gdx.graphics.getDeltaTime());
@@ -44,7 +50,7 @@ public abstract class AbstractGame implements ApplicationListener {
      */
     @Override
     public void pause() {
-        logger.system(this.getClass(), "Paused");
+        logger.system(((Object) this).getClass(), "Paused");
         if (screen != null) screen.pause();
     }
 
@@ -54,18 +60,22 @@ public abstract class AbstractGame implements ApplicationListener {
      */
     @Override
     public void resume() {
-        logger.system(this.getClass(), "Resumed");
+        logger.system(((Object) this).getClass(), "Resumed");
         if (screen != null) screen.resume();
     }
 
-    /** Called when the {@link com.badlogic.gdx.Application} is destroyed. Preceded by a call to {@link #pause()}. */
+    /**
+     * Called when the {@link com.badlogic.gdx.Application} is destroyed. Preceded by a call to {@link #pause()}.
+     */
     @Override
     public void dispose() {
-        logger.system(this.getClass(), "Disposing");
+        logger.system(((Object) this).getClass(), "Disposing");
         if (screen != null) screen.dispose();
     }
 
-    /** @return the currently active {@link com.badlogic.gdx.Screen}. */
+    /**
+     * @return the currently active {@link com.badlogic.gdx.Screen}.
+     */
     public Screen getScreen() {
         return screen;
     }

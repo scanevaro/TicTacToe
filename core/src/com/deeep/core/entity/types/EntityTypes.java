@@ -12,7 +12,7 @@ import java.util.HashMap;
  * Time: 11:55 AM
  * To change this template use File | Settings | File Templates.
  */
-public class  EntityTypes {
+public class EntityTypes {
     private static int type = 1;
     private static HashMap<Integer, Class<? extends Entity>> integerEntityHashMap = new HashMap<Integer, Class<? extends Entity>>();
     private static HashMap<Class<? extends Entity>, Integer> entityIntegerHashMap = new HashMap<Class<? extends Entity>, Integer>();
