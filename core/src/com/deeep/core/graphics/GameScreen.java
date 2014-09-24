@@ -21,6 +21,7 @@ import com.deeep.core.network.mutual.packets.ReceivedPacket;
 import com.deeep.core.system.Constants;
 import com.deeep.core.system.Core;
 import com.deeep.core.util.Logger;
+import com.sun.org.apache.bcel.internal.classfile.ConstantNameAndType;
 
 
 /**
@@ -65,9 +66,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(Core core, ClientLoop clientLoop) {
         this.core = core;
-        canvas = new Canvas(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Chat chat = new Chat(3, 80, true, 40, 8);
-        canvas.addElement(chat);
+        canvas = new Canvas((int) Constants.VIRTUAL_WIDTH, (int) Constants.VIRTUAL_HEIGHT);
         shapeRenderer = new ShapeRenderer();
 
         spriteBatch = new SpriteBatch(5);           //TODO tune this
@@ -131,22 +130,15 @@ public class GameScreen implements Screen {
      * Drawing happens here
      */
     public void draw() {
-        int rectSize = 0;
-        if (Constants.VIRTUAL_WIDTH > Constants.VIRTUAL_HEIGHT) {
-            rectSize = (int) Constants.VIRTUAL_WIDTH;
-        } else {
-            rectSize = (int) Constants.VIRTUAL_HEIGHT;
-        }
-
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
         for (int i = 0; i < 4; i++) {
-            shapeRenderer.line(i * rectSize / 4, 0, i * rectSize / 4, rectSize);
-            shapeRenderer.line(0, i * rectSize / 4, rectSize, i * rectSize / 4);
+            shapeRenderer.line(i * (Constants.VIRTUAL_HEIGHT / 3), 0, i * (Constants.VIRTUAL_HEIGHT / 3), Constants.VIRTUAL_HEIGHT);
+            shapeRenderer.line(0, i * (Constants.VIRTUAL_HEIGHT / 3), Constants.VIRTUAL_HEIGHT, i * (Constants.VIRTUAL_HEIGHT / 3));
         }
         shapeRenderer.end();
         world.draw(spriteBatch);
-        //canvas.draw(spriteBatch);
+        canvas.draw(spriteBatch);
     }
 
     /**
