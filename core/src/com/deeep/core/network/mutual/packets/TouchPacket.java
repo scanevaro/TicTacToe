@@ -15,10 +15,18 @@ public class TouchPacket extends Packet {
         y = 0;
     }
 
-    public boolean compare(TouchPacket packet) {
-        if (touch == packet.touch && x == packet.x && y == packet.y)
-            return true;
-
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TouchPacket) {
+            TouchPacket packet = (TouchPacket) obj;
+            if (touch == packet.touch && x == packet.x && y == packet.y)
+                return true;
+        }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + x + ", " + y + "]" + " " + touch;
     }
 }

@@ -31,11 +31,11 @@ public class ClientLoop {
 
     public void update(float deltaT) {
         pingTimer += deltaT;
-        if (pingTimer >= 1) {
+        if (pingTimer >= 10) {
             PingPacket pingPacket = new PingPacket();
             pingPacket.time = System.nanoTime();
             betterClient.sendTcp(pingPacket);
-            pingTimer -= 1;
+            pingTimer -= 10;
         }
         if (betterClient.getSize() > 0) {
             for (int i = 0, l = betterClient.getSize(); i < l; i++) {

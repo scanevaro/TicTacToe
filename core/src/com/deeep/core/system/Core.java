@@ -14,6 +14,7 @@ import com.deeep.core.network.server.ServerLoop;
 import com.deeep.core.util.AbstractGame;
 import com.deeep.core.util.Logger;
 import com.deeep.core.util.UpdateAble;
+import com.deeep.tictactoe.ServerGame;
 
 import java.util.ArrayList;
 
@@ -42,33 +43,37 @@ public class Core extends AbstractGame {
         if (this.host) {
             serverLoop = new ServerLoop();
             serverLoop.start();
+            ServerGame serverGame = new ServerGame(serverLoop);
+            connect("127.0.0.1");
         } else {
-            clientLoop = new ClientLoop();
-            networkTouchController = new NetworkTouchController(clientLoop);
-//            clientLoop.connect("192.168.2.13");
-            clientLoop.connect("127.0.0.1");
-            //clientLoop.connect("181.164.23.215");
-            clientLoop.addListener(new PacketListener(ChatPacket.class, new PacketListener.PacketAction() {
-                @Override
-                public void action(ReceivedPacket receivedPacket) {
-                    Logger.getInstance().debug(this.getClass(), "Received from server: " + ((ChatPacket) receivedPacket.containedPacket).text);
-                }
-            }));
-            clientLoop.addListener(new PacketListener(PingPacket.class, new PacketListener.PacketAction() {
-                @Override
-                public void action(ReceivedPacket receivedPacket) {
-                    long ping = System.nanoTime() - ((PingPacket) receivedPacket.containedPacket).time;
-                    Logger.getInstance().debug(this.getClass(), "Ping: " + ping);
-                }
-            }));
-            clientLoop.addListener(new PacketListener(TouchPacket.class, new PacketListener.PacketAction() {
-                @Override
-                public void action(ReceivedPacket receivedPacket) {
-                    Logger.getInstance().debug(this.getClass(), "TouchPacket sent and recieved succesfully");
-                }
-            }));
-            setScreen(new GameScreen(this, clientLoop));
+            connect("192.168.2.13");
         }
+    }
+
+    private void connect(String ip) {
+        clientLoop = new ClientLoop();
+        networkTouchController = new NetworkTouchController(clientLoop);
+        clientLoop.connect(ip);
+        clientLoop.addListener(new PacketListener(ChatPacket.class, new PacketListener.PacketAction() {
+            @Override
+            public void action(ReceivedPacket receivedPacket) {
+                Logger.getInstance().debug(this.getClass(), "Received from server: " + ((ChatPacket) receivedPacket.containedPacket).text);
+            }
+        }));
+        clientLoop.addListener(new PacketListener(PingPacket.class, new PacketListener.PacketAction() {
+            @Override
+            public void action(ReceivedPacket receivedPacket) {
+                long ping = (System.nanoTime() - ((PingPacket) receivedPacket.containedPacket).time) / 1000;
+                Logger.getInstance().debug(this.getClass(), "Ping: " + ping);
+            }
+        }));
+        clientLoop.addListener(new PacketListener(TouchPacket.class, new PacketListener.PacketAction() {
+            @Override
+            public void action(ReceivedPacket receivedPacket) {
+                Logger.getInstance().debug(Core.class, "Touched: " + receivedPacket.containedPacket.toString());
+            }
+        }));
+        setScreen(new GameScreen(this, clientLoop));
     }
 
     public void addUpdateListener(UpdateAble updateAble) {
@@ -93,8 +98,9 @@ public class Core extends AbstractGame {
             Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
             if (host) {
                 serverLoop.update(deltaTime);
+                clientLoop.update(deltaTime);
+                networkTouchController.update(deltaTime);
             } else {
-                //Camera.getInstance().update(deltaTime);
                 clientLoop.update(deltaTime);
                 networkTouchController.update(deltaTime);
             }

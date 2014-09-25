@@ -2,6 +2,8 @@ package com.deeep.core.entity.types;
 
 import com.deeep.core.entity.abstraction.Entity;
 import com.deeep.core.util.Logger;
+import com.deeep.tictactoe.entities.MoveCross;
+import com.deeep.tictactoe.entities.MoveZero;
 
 import java.util.HashMap;
 
@@ -25,7 +27,7 @@ public class EntityTypes {
         registerEntity(MoveZero.class);
     }
 
-    private static void registerEntity(Class<? extends Entity> claz) {
+    public static void registerEntity(Class<? extends Entity> claz) {
         integerEntityHashMap.put(type, claz);
         entityIntegerHashMap.put(claz, type);
         type++;

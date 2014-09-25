@@ -1,9 +1,11 @@
 package com.deeep.core.network.server;
 
 import com.deeep.core.entity.World;
+import com.deeep.tictactoe.entities.MoveZero;
 import com.deeep.core.entity.types.Wall;
 import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.*;
+import com.deeep.core.system.Constants;
 import com.deeep.core.util.Logger;
 
 import java.util.ArrayList;
@@ -45,6 +47,8 @@ public class ServerLoop {
      */
     private World world;
 
+    private ConnectionListeners connectionListeners;
+
     /**
      * Starts the server and initialize all the instances.
      */
@@ -55,14 +59,14 @@ public class ServerLoop {
         entityIdManager = new EntityIdManager(Integer.MAX_VALUE);
         Logger.getInstance().system(this.getClass(), "Entity manager set up");
         betterServer = new BetterServer();
+        connectionListeners = new ConnectionListeners();
         Logger.getInstance().system(this.getClass(), "Server initialized");
         betterServer.startListening();
         Logger.getInstance().system(this.getClass(), "Server listening");
         serverManager = new ServerManager(entityIdManager, betterServer);
+        Logger.getInstance().system(this.getClass(), "Server manager set up");
         playerManager = new PlayerManager(serverManager);
         Logger.getInstance().system(this.getClass(), "Player manager made");
-        serverManager.addEntity(new Wall(2, 2));
-        Logger.getInstance().system(this.getClass(), "Server manager set up");
         packetListeners = new ArrayList<PacketListener>();
         addListener(new PacketListener(RegisterPlayer.class, new PacketListener.PacketAction() {
             @Override
@@ -70,6 +74,9 @@ public class ServerLoop {
                 playerManager.addPlayer(receivedPacket.connection);
                 for (EntityCreationPacket entityCreationPacket : serverManager.getEntityPackets()) {
                     betterServer.sendToTCP(receivedPacket.connection.getID(), entityCreationPacket);
+                }
+                if (connectionListeners.connection != null) {
+                    connectionListeners.connection.onConnect(receivedPacket.connection);
                 }
             }
         }));
@@ -84,20 +91,12 @@ public class ServerLoop {
             public void action(ReceivedPacket receivedPacket) {
                 chatLogger.logText(((ChatPacket) receivedPacket.containedPacket).text);
                 betterServer.sendToAllTCP(receivedPacket.containedPacket);
-
             }
         }));
         addListener(new PacketListener(PingPacket.class, new PacketListener.PacketAction() {
             @Override
             public void action(ReceivedPacket receivedPacket) {
                 betterServer.sendToTCP(receivedPacket.connection.getID(), receivedPacket.containedPacket);
-            }
-        }));
-        addListener(new PacketListener(TouchPacket.class, new PacketListener.PacketAction() {
-            @Override
-            public void action(ReceivedPacket receivedPacket) {
-                betterServer.sendToTCP(receivedPacket.connection.getID(), receivedPacket.containedPacket);
-                Logger.getInstance().system(this.getClass(), "TouchPacket recieved");
             }
         }));
         Logger.getInstance().system(this.getClass(), "Listeners added");
@@ -151,5 +150,13 @@ public class ServerLoop {
             }
         }
         Logger.getInstance().warn(this.getClass(), "No listener found with class: " + claz);
+    }
+
+    public ServerManager getServerManager() {
+        return serverManager;
+    }
+
+    public ConnectionListeners getConnectionListeners() {
+        return connectionListeners;
     }
 }

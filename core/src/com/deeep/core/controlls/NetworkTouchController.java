@@ -24,7 +24,6 @@ public class NetworkTouchController {
             netController.update();
             if (netController.isChanged()) {
                 clientLoop.getClient().sendTcp(netController.getTouchPacket());
-                Logger.getInstance().debug(this.getClass(), "TouchPacket sent");
             }
             timer -= SEND_INTERVAL;
         }
@@ -49,11 +48,12 @@ public class NetworkTouchController {
                 touchPacket.touch = true;
                 touchPacket.y = Gdx.input.getY();
                 touchPacket.x = Gdx.input.getX();
+            } else {
+                touchPacket.touch = false;
             }
             changed = false;
-            if (!previousTouchPacket.compare(touchPacket)) {
+            if (!previousTouchPacket.equals(touchPacket)) {
                 changed = true;
-                Logger.getInstance().debug(this.getClass(), "Just Touched");
             }
         }
 

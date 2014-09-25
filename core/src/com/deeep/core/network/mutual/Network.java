@@ -27,7 +27,6 @@ public class Network {
         kryo.register(ControlPacket.class);
         kryo.register(EntityCreationPacket.class);
         kryo.register(ArrayList.class);
-        kryo.register(TailSpecificPacket.class);
         kryo.register(PingPacket.class);
         kryo.register(TouchPacket.class);
     }
