@@ -45,9 +45,9 @@ public class MoveZero extends Entity {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.BLUE);
         shapeRenderer.ellipse(mapX * Constants.VIRTUAL_HEIGHT / 3,
-                mapY * Constants.VIRTUAL_HEIGHT / 3,
-                Constants.VIRTUAL_HEIGHT / 3,
-                Constants.VIRTUAL_HEIGHT / 3);
+                              mapY * Constants.VIRTUAL_HEIGHT / 3,
+                               Constants.VIRTUAL_HEIGHT / 3,
+                                Constants.VIRTUAL_HEIGHT / 3);
         shapeRenderer.end();
     }
 }

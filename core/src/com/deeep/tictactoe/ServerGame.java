@@ -6,6 +6,7 @@ import com.deeep.core.network.mutual.packets.TouchPacket;
 import com.deeep.core.network.server.ConnectionListeners;
 import com.deeep.core.network.server.ServerLoop;
 import com.deeep.core.system.Constants;
+import com.deeep.tictactoe.entities.MoveCross;
 import com.deeep.tictactoe.entities.MoveZero;
 import com.esotericsoftware.kryonet.Connection;
 
@@ -36,6 +37,7 @@ public class ServerGame {
             public void onConnect(Connection connection) {
                 if (cross_id == -1) {
                     cross_id = connection.getID();
+                    playerTurn = cross_id;
                 } else if (zero_id == -1) {
                     zero_id = connection.getID();
                 }
@@ -45,20 +47,31 @@ public class ServerGame {
             @Override
             public void action(ReceivedPacket receivedPacket) {
                 //calculate x and y
-                TouchPacket touchPacket = (TouchPacket) receivedPacket.containedPacket;
-                if (touchPacket.x <= Constants.VIRTUAL_HEIGHT) {
-                    int x = 0, y = 2;
-                    while (touchPacket.x > Constants.VIRTUAL_HEIGHT / 3) {
-                        x++;
-                        touchPacket.x -= Constants.VIRTUAL_HEIGHT / 3;
+                if (cross_id != -1 && zero_id != -1 && receivedPacket.connection.getID() == playerTurn) {
+                    TouchPacket touchPacket = (TouchPacket) receivedPacket.containedPacket;
+                    if (touchPacket.x <= Constants.VIRTUAL_HEIGHT) {
+                        int x = 0, y = 2;
+                        while (touchPacket.x > Constants.VIRTUAL_HEIGHT / 3) {
+                            x++;
+                            touchPacket.x -= Constants.VIRTUAL_HEIGHT / 3;
+                        }
+                        while (touchPacket.y > Constants.VIRTUAL_HEIGHT / 3) {
+                            y--;
+                            touchPacket.y -= Constants.VIRTUAL_HEIGHT / 3;
+                        }
+                        if (field[x][y] != -1)
+                            return;
+                        if (playerTurn == cross_id) {
+                            playerTurn = zero_id;
+                            serverLoop.getServerManager().addEntity(new MoveCross(x, y));
+                        } else {
+                            playerTurn = cross_id;
+                            serverLoop.getServerManager().addEntity(new MoveZero(x, y));
+
+                        }
+                        field[x][y] = receivedPacket.connection.getID();
+                        winCondition();
                     }
-                    while (touchPacket.y > Constants.VIRTUAL_HEIGHT / 3) {
-                        y--;
-                        touchPacket.y -= Constants.VIRTUAL_HEIGHT / 3;
-                    }
-                    field[x][y] = receivedPacket.connection.getID();
-                    winCondition();
-                    serverLoop.getServerManager().addEntity(new MoveZero(x, y));
                 }
             }
         }));
@@ -77,8 +90,10 @@ public class ServerGame {
                     }
                 }
             }
-            if (crossWin | draw | zeroWin)
+            if (crossWin | draw | zeroWin) {
                 finished = true;
+                System.out.println(crossWin + " " + draw + " " + zeroWin + "");
+            }
         }
         System.out.println(this);
     }
@@ -86,6 +101,11 @@ public class ServerGame {
     private boolean checkPlayer(int player) {
         for (int i = 0; i < 3; i++) {
             if (field[i][0] == player && field[i][1] == player && field[i][2] == player) {
+                return true;
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (field[0][i] == player && field[1][i] == player && field[2][i] == player) {
                 return true;
             }
         }

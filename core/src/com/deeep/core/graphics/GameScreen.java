@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setProjectionMatrix(cam.combined);
-        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.rect(0, 0, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
         shapeRenderer.end();
         update(delta);
