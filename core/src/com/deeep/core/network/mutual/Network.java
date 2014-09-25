@@ -1,5 +1,6 @@
 package com.deeep.core.network.mutual;
 
+import com.deeep.core.network.mutual.packets.TouchPacket;
 import com.deeep.core.network.mutual.packets.*;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
@@ -28,5 +29,6 @@ public class Network {
         kryo.register(ArrayList.class);
         kryo.register(TailSpecificPacket.class);
         kryo.register(PingPacket.class);
+        kryo.register(TouchPacket.class);
     }
 }

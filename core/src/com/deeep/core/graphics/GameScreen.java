@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.deeep.core.entity.World;
 import com.deeep.core.entity.abstraction.Manager;
 import com.deeep.core.gui.Canvas;
-import com.deeep.core.gui.Chat;
 import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.EntityCreationPacket;
@@ -21,7 +20,6 @@ import com.deeep.core.network.mutual.packets.ReceivedPacket;
 import com.deeep.core.system.Constants;
 import com.deeep.core.system.Core;
 import com.deeep.core.util.Logger;
-import com.sun.org.apache.bcel.internal.classfile.ConstantNameAndType;
 
 
 /**

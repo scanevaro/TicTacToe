@@ -16,22 +16,38 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class ServerLoop {
-    /** Instance to send data trough */
+    /**
+     * Instance to send data trough
+     */
     private BetterServer betterServer;
-    /** Instance to manage the entities */
+    /**
+     * Instance to manage the entities
+     */
     private ServerManager serverManager;
-    /** Instance to manage the entity id's TODO move to manager */
+    /**
+     * Instance to manage the entity id's TODO move to manager
+     */
     private EntityIdManager entityIdManager;
-    /** List of all the packet listeners to check */
+    /**
+     * List of all the packet listeners to check
+     */
     private ArrayList<PacketListener> packetListeners;
-    /** Instance of the player manager, will update player specific stuff */
+    /**
+     * Instance of the player manager, will update player specific stuff
+     */
     private PlayerManager playerManager;
-    /** Instance to log all the text to */
+    /**
+     * Instance to log all the text to
+     */
     private ChatLogger chatLogger;
-    /** Some world */
+    /**
+     * Some world
+     */
     private World world;
 
-    /** Starts the server and initialize all the instances. */
+    /**
+     * Starts the server and initialize all the instances.
+     */
     public void start() {
         Logger.getInstance().system(this.getClass(), "Starting server loop. . . ");
         chatLogger = new ChatLogger();
@@ -45,7 +61,7 @@ public class ServerLoop {
         serverManager = new ServerManager(entityIdManager, betterServer);
         playerManager = new PlayerManager(serverManager);
         Logger.getInstance().system(this.getClass(), "Player manager made");
-        serverManager.addEntity(new Wall(2,2));
+        serverManager.addEntity(new Wall(2, 2));
         Logger.getInstance().system(this.getClass(), "Server manager set up");
         packetListeners = new ArrayList<PacketListener>();
         addListener(new PacketListener(RegisterPlayer.class, new PacketListener.PacketAction() {
@@ -74,7 +90,14 @@ public class ServerLoop {
         addListener(new PacketListener(PingPacket.class, new PacketListener.PacketAction() {
             @Override
             public void action(ReceivedPacket receivedPacket) {
-                betterServer.sendToTCP(receivedPacket.connection.getID(),receivedPacket.containedPacket);
+                betterServer.sendToTCP(receivedPacket.connection.getID(), receivedPacket.containedPacket);
+            }
+        }));
+        addListener(new PacketListener(TouchPacket.class, new PacketListener.PacketAction() {
+            @Override
+            public void action(ReceivedPacket receivedPacket) {
+                betterServer.sendToTCP(receivedPacket.connection.getID(), receivedPacket.containedPacket);
+                Logger.getInstance().system(this.getClass(), "TouchPacket recieved");
             }
         }));
         Logger.getInstance().system(this.getClass(), "Listeners added");
