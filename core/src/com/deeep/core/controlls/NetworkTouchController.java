@@ -3,7 +3,9 @@ package com.deeep.core.controlls;
 import com.badlogic.gdx.Gdx;
 import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.packets.TouchPacket;
+import com.deeep.core.system.Constants;
 import com.deeep.core.util.Logger;
+import com.sun.org.apache.bcel.internal.classfile.ConstantNameAndType;
 
 /**
  * Created by scanevaro on 24/09/2014.
@@ -46,8 +48,8 @@ public class NetworkTouchController {
 
             if (Gdx.input.isTouched()) {
                 touchPacket.touch = true;
-                touchPacket.y = Gdx.input.getY();
-                touchPacket.x = Gdx.input.getX();
+                touchPacket.y = Gdx.input.getY() * Constants.VIRTUAL_HEIGHT / Gdx.graphics.getHeight();
+                touchPacket.x = Gdx.input.getX() * Constants.VIRTUAL_WIDTH / Gdx.graphics.getWidth();
             } else {
                 touchPacket.touch = false;
             }

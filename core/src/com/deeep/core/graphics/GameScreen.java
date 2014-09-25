@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
      */
     private Rectangle viewport;
     private Canvas canvas;
-    private ShapeRenderer shapeRenderer;
+    public static ShapeRenderer shapeRenderer;
 
     /**
      * Constructor

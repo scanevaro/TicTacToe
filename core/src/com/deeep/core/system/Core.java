@@ -47,7 +47,7 @@ public abstract class Core extends AbstractGame {
             connect("127.0.0.1");
             onJoin();
         } else {
-            connect("127.0.0.1");
+            connect("192.168.2.13");
             onJoin();
         }
     }
