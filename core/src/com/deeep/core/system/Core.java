@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * This class is the entry point to the game
  */
-public class Core extends AbstractGame {
+public abstract class Core extends AbstractGame {
     public static boolean android = false;
     private ArrayList<UpdateAble> updateListeners = new ArrayList<UpdateAble>();
     private ServerLoop serverLoop;
@@ -43,14 +43,22 @@ public class Core extends AbstractGame {
         if (this.host) {
             serverLoop = new ServerLoop();
             serverLoop.start();
-            ServerGame serverGame = new ServerGame(serverLoop);
+            onHost(serverLoop);
             connect("127.0.0.1");
+            onJoin();
         } else {
             connect("192.168.2.13");
+            onJoin();
         }
     }
 
-    private void connect(String ip) {
+    public abstract void onHost(ServerLoop serverLoop);
+
+    public abstract void onJoin();
+
+    public abstract void onUpdate(float deltaTime);
+
+    protected void connect(String ip) {
         clientLoop = new ClientLoop();
         networkTouchController = new NetworkTouchController(clientLoop);
         clientLoop.connect(ip);
@@ -107,6 +115,7 @@ public class Core extends AbstractGame {
             for (UpdateAble updateAble : updateListeners) {
                 updateAble.update(deltaTime);
             }
+            onUpdate(deltaTime);
         } catch (ArrayIndexOutOfBoundsException e) {
             dispose();
             Gdx.app.exit();
