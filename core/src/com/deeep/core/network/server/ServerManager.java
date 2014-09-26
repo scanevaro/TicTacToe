@@ -23,6 +23,7 @@ public class ServerManager extends Manager {
     private BetterServer betterServer;
 
     public ServerManager(EntityIdManager entityIdManager, BetterServer betterServer) {
+        super();
         integerEntityHashMap = new HashMap<Integer, Entity>();
         this.entityIdManager = entityIdManager;
         this.betterServer = betterServer;

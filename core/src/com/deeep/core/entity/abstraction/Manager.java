@@ -18,16 +18,16 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Manager {
-    private ShapeRenderer shapeRenderer;
+    //private ShapeRenderer shapeRenderer;
     private SynchronousArrayList<Entity> entities;
     private boolean debug = true;
     private Map map;
 
     public Manager() {
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setColor(Color.RED);
         map = new Map(60, 60);
         entities = new SynchronousArrayList<Entity>();
+        //shapeRenderer = new ShapeRenderer();
+        //shapeRenderer.setColor(Color.RED);
     }
 
     public ArrayList<Entity> getEntities() {
@@ -70,14 +70,14 @@ public abstract class Manager {
         for (Entity entity : entities) {
             entity.draw(spriteBatch);
             if (debug) {
-                if(entity instanceof Wall)
-                    shapeRenderer.setColor(Color.RED);
-                else
-                    shapeRenderer.setColor(Color.GREEN);
-                shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                //TODO get width and height of object and draw rect
-                shapeRenderer.end();
+               // if(entity instanceof Wall)
+               //     shapeRenderer.setColor(Color.RED);
+               // else
+               //     shapeRenderer.setColor(Color.GREEN);
+               // shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
+               // shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+               // //TODO get width and height of object and draw rect
+               // shapeRenderer.end();
             }
         }
     }

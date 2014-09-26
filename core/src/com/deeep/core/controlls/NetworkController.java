@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.packets.ControlPacket;
-import com.deeep.core.system.Core;
+
 import com.deeep.core.util.Logger;
 
 /**
@@ -36,9 +36,7 @@ public class NetworkController {
     }
 
     public void draw(){
-        if(Core.android){
 
-        }
     }
 
     public class NetController {

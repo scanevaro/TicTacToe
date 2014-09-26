@@ -7,6 +7,7 @@ import com.deeep.core.network.mutual.packets.WinPacket;
 import com.deeep.core.network.server.ConnectionListeners;
 import com.deeep.core.network.server.ServerLoop;
 import com.deeep.core.system.Constants;
+import com.deeep.core.util.AbstractGame;
 import com.deeep.tictactoe.entities.MoveCross;
 import com.deeep.tictactoe.entities.MoveZero;
 import com.esotericsoftware.kryonet.Connection;
@@ -14,7 +15,7 @@ import com.esotericsoftware.kryonet.Connection;
 /**
  * Created by Elmar on 9/25/2014.
  */
-public class ServerGame {
+public class ServerGame extends AbstractGame{
     public static int cross_id = -1;
     public static int zero_id = -1;
     int[][] field;
@@ -24,9 +25,12 @@ public class ServerGame {
     boolean zeroWin = false;
     boolean draw = false;
     private ServerLoop serverLoop;
+    private ClientGame clientGame;
 
-    public ServerGame(final ServerLoop serverLoop) {
-        this.serverLoop = serverLoop;
+    public ServerGame() {
+        //TODO move this to abstraction
+        serverLoop = new ServerLoop();
+        serverLoop.start();
 
         field = new int[3][3];
         for (int x = 0; x < 3; x++) {
@@ -137,5 +141,15 @@ public class ServerGame {
             map += '\n';
         }
         return map;
+    }
+
+    @Override
+    public void render(float deltaTime) {
+        clientGame.render(deltaTime);
+    }
+
+    @Override
+    public void create() {
+        clientGame = new ClientGame("127.0.0.1");
     }
 }
