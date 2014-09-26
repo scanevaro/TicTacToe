@@ -4,6 +4,7 @@ import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.Packet;
 import com.deeep.core.network.mutual.packets.PingPacket;
 import com.deeep.core.network.mutual.packets.ReceivedPacket;
+import com.deeep.core.network.mutual.packets.WinPacket;
 import com.deeep.core.util.Logger;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class ClientLoop {
     private BetterClient betterClient;
     private ArrayList<PacketListener> packetListeners;
     private float pingTimer = 0;
+    public WinPacket winPacket;
 
     public ClientLoop() {
         betterClient = new BetterClient();

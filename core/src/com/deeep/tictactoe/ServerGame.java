@@ -3,6 +3,7 @@ package com.deeep.tictactoe;
 import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.ReceivedPacket;
 import com.deeep.core.network.mutual.packets.TouchPacket;
+import com.deeep.core.network.mutual.packets.WinPacket;
 import com.deeep.core.network.server.ConnectionListeners;
 import com.deeep.core.network.server.ServerLoop;
 import com.deeep.core.system.Constants;
@@ -25,13 +26,19 @@ public class ServerGame {
     private ServerLoop serverLoop;
 
     public ServerGame(final ServerLoop serverLoop) {
+        this.serverLoop = serverLoop;
+
         field = new int[3][3];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 field[x][y] = -1;
             }
         }
-        this.serverLoop = serverLoop;
+
+        setListeners();
+    }
+
+    private void setListeners() {
         serverLoop.getConnectionListeners().connection = new ConnectionListeners.ConnectionInterface() {
             @Override
             public void onConnect(Connection connection) {
@@ -93,6 +100,11 @@ public class ServerGame {
             if (crossWin | draw | zeroWin) {
                 finished = true;
                 System.out.println(crossWin + " " + draw + " " + zeroWin + "");
+                WinPacket winPacket = new WinPacket();
+                winPacket.crossWin = crossWin;
+                winPacket.draw = draw;
+                winPacket.zeroWin = zeroWin;
+                serverLoop.getBetterServer().sendToAllTCP(winPacket);
             }
         }
         System.out.println(this);

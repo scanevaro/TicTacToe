@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
     private Rectangle viewport;
     private Canvas canvas;
     public static ShapeRenderer shapeRenderer;
+    private ClientLoop clientLoop;
 
     /**
      * Constructor
@@ -64,6 +65,8 @@ public class GameScreen implements Screen {
      */
     public GameScreen(Core core, ClientLoop clientLoop) {
         this.core = core;
+        this.clientLoop = clientLoop;
+
         canvas = new Canvas((int) Constants.VIRTUAL_WIDTH, (int) Constants.VIRTUAL_HEIGHT);
         shapeRenderer = new ShapeRenderer();
 
@@ -137,6 +140,15 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
         world.draw(spriteBatch);
         canvas.draw(spriteBatch);
+
+        if (clientLoop.winPacket != null) {
+            if (clientLoop.winPacket.crossWin)
+                System.out.println("Cross Won");
+            else if (clientLoop.winPacket.draw)
+                System.out.println("DRAW");
+            else
+                System.out.println("Zero Win");
+        }
     }
 
     /**

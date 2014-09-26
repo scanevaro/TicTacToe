@@ -1,11 +1,8 @@
 package com.deeep.core.network.server;
 
 import com.deeep.core.entity.World;
-import com.deeep.tictactoe.entities.MoveZero;
-import com.deeep.core.entity.types.Wall;
 import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.*;
-import com.deeep.core.system.Constants;
 import com.deeep.core.util.Logger;
 
 import java.util.ArrayList;
@@ -158,5 +155,9 @@ public class ServerLoop {
 
     public ConnectionListeners getConnectionListeners() {
         return connectionListeners;
+    }
+
+    public BetterServer getBetterServer() {
+        return betterServer;
     }
 }

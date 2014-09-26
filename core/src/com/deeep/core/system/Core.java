@@ -6,15 +6,11 @@ import com.deeep.core.graphics.Assets;
 import com.deeep.core.graphics.GameScreen;
 import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.PacketListener;
-import com.deeep.core.network.mutual.packets.ChatPacket;
-import com.deeep.core.network.mutual.packets.PingPacket;
-import com.deeep.core.network.mutual.packets.ReceivedPacket;
-import com.deeep.core.network.mutual.packets.TouchPacket;
+import com.deeep.core.network.mutual.packets.*;
 import com.deeep.core.network.server.ServerLoop;
 import com.deeep.core.util.AbstractGame;
 import com.deeep.core.util.Logger;
 import com.deeep.core.util.UpdateAble;
-import com.deeep.tictactoe.ServerGame;
 
 import java.util.ArrayList;
 
@@ -47,9 +43,13 @@ public abstract class Core extends AbstractGame {
             connect("127.0.0.1");
             onJoin();
         } else {
-            connect("192.168.2.13");
+//            connect("192.168.2.13");
+            connect("127.0.0.1");
             onJoin();
         }
+
+        setClientListeners();
+        setScreen(new GameScreen(this, clientLoop));
     }
 
     public abstract void onHost(ServerLoop serverLoop);
@@ -62,6 +62,9 @@ public abstract class Core extends AbstractGame {
         clientLoop = new ClientLoop();
         networkTouchController = new NetworkTouchController(clientLoop);
         clientLoop.connect(ip);
+    }
+
+    private void setClientListeners() {
         clientLoop.addListener(new PacketListener(ChatPacket.class, new PacketListener.PacketAction() {
             @Override
             public void action(ReceivedPacket receivedPacket) {
@@ -81,7 +84,12 @@ public abstract class Core extends AbstractGame {
                 Logger.getInstance().debug(Core.class, "Touched: " + receivedPacket.containedPacket.toString());
             }
         }));
-        setScreen(new GameScreen(this, clientLoop));
+        clientLoop.addListener(new PacketListener(WinPacket.class, new PacketListener.PacketAction() {
+            @Override
+            public void action(ReceivedPacket receivedPacket) {
+                clientLoop.winPacket = (WinPacket) receivedPacket.containedPacket;
+            }
+        }));
     }
 
     public void addUpdateListener(UpdateAble updateAble) {
