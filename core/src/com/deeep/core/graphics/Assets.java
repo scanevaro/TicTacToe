@@ -1,6 +1,7 @@
 package com.deeep.core.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -33,6 +34,11 @@ public class Assets {
     private Skin skin;
 
     /**
+     * Logo for SplashScreen
+     */
+    private Texture logo;
+
+    /**
      * Logger instance
      */
     private Logger logger = Logger.getInstance();
@@ -56,6 +62,7 @@ public class Assets {
         if (!loaded) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("images/TextureAtlas.txt"));
             skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+            logo = new Texture(Gdx.files.internal("data/logo.png"));
             logger.system(Assets.class, "All assets have been loaded");
             loaded = true;
         }
@@ -77,6 +84,10 @@ public class Assets {
 
     public Skin getSkin() {
         return skin;
+    }
+
+    public Texture getLogo() {
+        return logo;
     }
 
     public void dispose() {

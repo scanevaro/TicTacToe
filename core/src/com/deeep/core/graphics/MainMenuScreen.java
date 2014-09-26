@@ -11,14 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.deeep.core.system.Constants;
+import com.deeep.core.system.Core;
 
 /**
  * Created by scanevaro on 26/09/2014.
  */
 public class MainMenuScreen implements Screen {
+    private Core core;
     private Stage stage;
 
-    public MainMenuScreen() {
+    public MainMenuScreen(Core core) {
         stage = new Stage(new StretchViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT));
 
         Gdx.input.setInputProcessor(stage);
