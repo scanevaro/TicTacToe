@@ -58,7 +58,6 @@ public abstract class ClientCore extends AbstractGame implements Screen {
      */
     private Rectangle viewport;
     private Canvas canvas;
-    public static ShapeRenderer shapeRenderer;
 
     public ClientCore(String ip) {
         viewport = new Rectangle(0,0,0,0);
@@ -113,6 +112,7 @@ public abstract class ClientCore extends AbstractGame implements Screen {
      */
     @Override
     public void render(float deltaTime) {
+        System.out.println("Client: " );
         clientLoop.update(deltaTime);
         networkTouchController.update(deltaTime);
         clientUpdate(deltaTime);
@@ -128,7 +128,6 @@ public abstract class ClientCore extends AbstractGame implements Screen {
             updateAble.update(deltaTime);
         }
     }
-
     public abstract void clientUpdate(float deltaTime);
 
     public abstract void clientDraw(SpriteBatch spriteBatch);
