@@ -121,6 +121,8 @@ public abstract class ClientCore extends AbstractGame implements Screen {
         clientLoop.update(deltaTime);
         networkTouchController.update(deltaTime);
         clientUpdate(deltaTime);
+        world.update(deltaTime);
+        canvas.update(deltaTime);
 
         cam.update();
         Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
