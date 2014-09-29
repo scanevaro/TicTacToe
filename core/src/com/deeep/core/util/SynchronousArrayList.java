@@ -16,9 +16,11 @@ public class SynchronousArrayList<E> extends ArrayList<E> {
     public void update() {
         for (E e : addList) {
             super.add(e);
+            System.out.println("Added, new size: " + super.size());
         }
         for (E e : removeList) {
             super.remove(e);
+            System.out.println("removed, new size: " + super.size());
         }
         addList.clear();
         removeList.clear();

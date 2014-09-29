@@ -60,15 +60,6 @@ public abstract class ClientCore extends AbstractGame implements Screen {
     private Canvas canvas;
 
     public ClientCore(String ip) {
-        viewport = new Rectangle(0,0,0,0);
-        canvas = new Canvas((int) Constants.VIRTUAL_WIDTH, (int) Constants.VIRTUAL_HEIGHT);
-
-        spriteBatch = new SpriteBatch(5);           //TODO tune this
-        world = new World();
-
-        cam = new OrthographicCamera(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
-        cam.position.set(Constants.VIRTUAL_WIDTH / 2, Constants.VIRTUAL_HEIGHT / 2, 0);
-
         //TODO return something when it goes wrong
         clientLoop = new ClientLoop();
         networkTouchController = new NetworkTouchController(clientLoop);
@@ -102,6 +93,21 @@ public abstract class ClientCore extends AbstractGame implements Screen {
 
     }
 
+    @Override
+    public void create() {
+        viewport = new Rectangle(0, 0, 0, 0);
+        canvas = new Canvas((int) Constants.VIRTUAL_WIDTH, (int) Constants.VIRTUAL_HEIGHT);
+
+        spriteBatch = new SpriteBatch(5);           //TODO tune this
+        world = new World();
+
+        cam = new OrthographicCamera(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
+        cam.position.set(Constants.VIRTUAL_WIDTH / 2, Constants.VIRTUAL_HEIGHT / 2, 0);
+        onGDXLoad();
+    }
+
+    public abstract void onGDXLoad();
+
     protected void connect(String ip) {
         clientLoop.connect(ip);
     }
@@ -112,7 +118,6 @@ public abstract class ClientCore extends AbstractGame implements Screen {
      */
     @Override
     public void render(float deltaTime) {
-        System.out.println("Client: " );
         clientLoop.update(deltaTime);
         networkTouchController.update(deltaTime);
         clientUpdate(deltaTime);
@@ -128,6 +133,7 @@ public abstract class ClientCore extends AbstractGame implements Screen {
             updateAble.update(deltaTime);
         }
     }
+
     public abstract void clientUpdate(float deltaTime);
 
     public abstract void clientDraw(SpriteBatch spriteBatch);

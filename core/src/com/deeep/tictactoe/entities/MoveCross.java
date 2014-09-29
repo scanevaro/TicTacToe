@@ -10,7 +10,8 @@ import com.deeep.core.system.Constants;
  * Created by Elmar on 9/24/2014.
  */
 public class MoveCross extends Entity {
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private ShapeRenderer shapeRenderer;
+
     public MoveCross() {
         this.x = -1;
         this.y = -1;
@@ -27,6 +28,7 @@ public class MoveCross extends Entity {
 
     @Override
     protected void loadAssets() {
+        shapeRenderer = new ShapeRenderer();
         this.mapX = (int) this.getX();
         this.mapY = (int) this.getY();
     }
@@ -38,6 +40,7 @@ public class MoveCross extends Entity {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
+        System.out.println("being drawn cross");
         shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GREEN);

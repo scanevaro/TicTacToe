@@ -15,7 +15,7 @@ import com.esotericsoftware.kryonet.Connection;
 /**
  * Created by Elmar on 9/25/2014.
  */
-public class ServerGame extends AbstractGame {
+public class ServerGame {
     public static int cross_id = -1;
     public static int zero_id = -1;
     int[][] field;
@@ -25,16 +25,11 @@ public class ServerGame extends AbstractGame {
     boolean zeroWin = false;
     boolean draw = false;
     private ServerLoop serverLoop;
-    private ClientGame clientGame;
 
     public ServerGame() {
     }
 
-
-    @Override
-    public void create() {
-        clientGame = new ClientGame("127.0.0.1");
-        //TODO move this to abstraction
+    public void start() {
         serverLoop = new ServerLoop();
         serverLoop.start();
 
@@ -47,6 +42,7 @@ public class ServerGame extends AbstractGame {
 
         setListeners();
     }
+
 
     private void setListeners() {
         serverLoop.getConnectionListeners().connection = new ConnectionListeners.ConnectionInterface() {
@@ -147,10 +143,5 @@ public class ServerGame extends AbstractGame {
             map += '\n';
         }
         return map;
-    }
-
-    @Override
-    public void render(float deltaTime) {
-        clientGame.render(deltaTime);
     }
 }

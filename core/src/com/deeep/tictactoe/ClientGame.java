@@ -17,7 +17,7 @@ import com.deeep.core.util.Logger;
  * Created by Elmar on 9/26/2014.
  */
 public class ClientGame extends ClientCore {
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private ShapeRenderer shapeRenderer;
 
     public ClientGame(String ip) {
         super(ip);
@@ -36,6 +36,11 @@ public class ClientGame extends ClientCore {
     }
 
     @Override
+    public void onGDXLoad() {
+        shapeRenderer = new ShapeRenderer();
+    }
+
+    @Override
     public void clientUpdate(float deltaTime) {
         //TODO particle effects
     }
@@ -50,10 +55,5 @@ public class ClientGame extends ClientCore {
             shapeRenderer.line(0, i * (Constants.VIRTUAL_HEIGHT / 3), Constants.VIRTUAL_HEIGHT, i * (Constants.VIRTUAL_HEIGHT / 3));
         }
         shapeRenderer.end();
-    }
-
-    @Override
-    public void create() {
-        //TODO ehhh?
     }
 }

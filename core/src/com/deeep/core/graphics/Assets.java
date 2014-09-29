@@ -13,13 +13,21 @@ import com.deeep.core.util.Logger;
  * To change this template use File | Settings | File Templates.
  */
 public class Assets {
-    /** instance for singleton */
+    /**
+     * instance for singleton
+     */
     private static Assets assets;
-    /** Just a check to be sure that the assets aren't loaded multiple times */
+    /**
+     * Just a check to be sure that the assets aren't loaded multiple times
+     */
     private static boolean loaded = false;
-    /** The atlases containing all the images */
+    /**
+     * The atlases containing all the images
+     */
     private TextureAtlas textureAtlas;
-    /** Logger instance */
+    /**
+     * Logger instance
+     */
     private Logger logger = Logger.getInstance();
 
     /**
@@ -35,7 +43,9 @@ public class Assets {
     }
 
 
-    /** function to load everything. Nothing special. TODO add more resources here( sound music etc) */
+    /**
+     * function to load everything. Nothing special. TODO add more resources here( sound music etc)
+     */
     public void load() {
         if (!loaded) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("images/TextureAtlas.txt"));
@@ -54,12 +64,15 @@ public class Assets {
 
         TextureRegion textureRegion = textureAtlas.findRegion(name);
         if (textureRegion == null) {
-            logger.error(Assets.class, "Unkown texture requested: " + name);
+            logger.error(Assets.class, "Unknown texture requested: " + name);
         }
         return textureAtlas.findRegion(name);
     }
 
     public void dispose() {
-        textureAtlas.dispose();
+        if (textureAtlas != null)
+            textureAtlas.dispose();
+        else
+            logger.warn(this.getClass(),"No disposable assets");
     }
 }

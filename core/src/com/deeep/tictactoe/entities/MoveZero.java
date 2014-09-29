@@ -10,7 +10,7 @@ import com.deeep.core.system.Constants;
  * Created by Elmar on 9/24/2014.
  */
 public class MoveZero extends Entity {
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private ShapeRenderer shapeRenderer;
 
     public MoveZero() {
         this.x = -1;
@@ -28,6 +28,7 @@ public class MoveZero extends Entity {
 
     @Override
     protected void loadAssets() {
+        shapeRenderer = new ShapeRenderer();
         this.mapX = (int) this.getX();
         this.mapY = (int) this.getY();
     }
@@ -41,6 +42,7 @@ public class MoveZero extends Entity {
     public void draw(SpriteBatch spriteBatch) {
         if (mapX == -1)
             return;
+        System.out.println("being drawn");
         shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.BLUE);
