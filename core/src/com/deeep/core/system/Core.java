@@ -3,7 +3,7 @@ package com.deeep.core.system;
 import com.badlogic.gdx.Gdx;
 import com.deeep.core.controlls.NetworkTouchController;
 import com.deeep.core.graphics.Assets;
-import com.deeep.core.graphics.SplashScreen;
+import com.deeep.core.graphics.GameScreen;
 import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.*;
@@ -49,8 +49,8 @@ public abstract class Core extends AbstractGame {
         }
 
         setClientListeners();
-//        setScreen(new GameScreen(this, clientLoop));
-        setScreen(new SplashScreen(this));
+        setScreen(new GameScreen(this, clientLoop));
+//        setScreen(new SplashScreen(this));
     }
 
     public abstract void onHost(ServerLoop serverLoop);
