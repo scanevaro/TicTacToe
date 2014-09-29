@@ -39,6 +39,11 @@ public class Assets {
     private Texture logo;
 
     /**
+     * Game Title
+     */
+    private Texture title;
+
+    /**
      * Logger instance
      */
     private Logger logger = Logger.getInstance();
@@ -63,6 +68,7 @@ public class Assets {
             textureAtlas = new TextureAtlas(Gdx.files.internal("images/TextureAtlas.txt"));
             skin = new Skin(Gdx.files.internal("data/uiskin.json"));
             logo = new Texture(Gdx.files.internal("data/logo.png"));
+            title = new Texture(Gdx.files.internal("data/title.png"));
             logger.system(Assets.class, "All assets have been loaded");
             loaded = true;
         }
@@ -88,6 +94,10 @@ public class Assets {
 
     public Texture getLogo() {
         return logo;
+    }
+
+    public Texture getTitle() {
+        return title;
     }
 
     public void dispose() {
