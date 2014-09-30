@@ -10,8 +10,8 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 600;
         config.height = 360;
-        //ServerGame serverGame = new ServerGame();
-        //serverGame.start();
+        ServerGame serverGame = new ServerGame();
+        serverGame.start();
         new LwjglApplication(new ClientGame("127.0.0.1"), config);
     }
 }

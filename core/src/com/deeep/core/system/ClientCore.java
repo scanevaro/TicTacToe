@@ -2,6 +2,7 @@ package com.deeep.core.system;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by Elmar on 9/26/2014.
  */
-public abstract class ClientCore extends AbstractGame implements Screen {
+public abstract class ClientCore extends AbstractGame {
     /**
      * Updates. TODO Hook the server in here?
      */
@@ -125,6 +126,7 @@ public abstract class ClientCore extends AbstractGame implements Screen {
         canvas.update(deltaTime);
 
         cam.update();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
         Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
         spriteBatch.setProjectionMatrix(cam.combined);
         world.draw(spriteBatch);
@@ -164,35 +166,6 @@ public abstract class ClientCore extends AbstractGame implements Screen {
         float h = Constants.VIRTUAL_HEIGHT * scale;
         viewport = new Rectangle(crop.x, crop.y, w, h);
         canvas.resize((int) viewport.width, (int) viewport.height);
-    }
-
-    /**
-     * Called when this screen becomes the current screen for a {@link com.badlogic.gdx.Game}.
-     */
-    @Override
-    public void show() {
-        logger.debug(((Object) this).getClass(), "Showing");
-    }
-
-    /**
-     * Called when this screen is no longer the current screen for a {@link com.badlogic.gdx.Game}.
-     */
-    @Override
-    public void hide() {
-    }
-
-    /**
-     * @see com.badlogic.gdx.ApplicationListener#pause()
-     */
-    @Override
-    public void pause() {
-    }
-
-    /**
-     * @see com.badlogic.gdx.ApplicationListener#resume()
-     */
-    @Override
-    public void resume() {
     }
 
     /**
