@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.deeep.core.system.Constants;
-import com.deeep.core.system.Core;
 import com.deeep.tictactoe.entities.SplashSprite;
 
 /**
@@ -16,12 +15,10 @@ import com.deeep.tictactoe.entities.SplashSprite;
  */
 public class SplashScreen implements Screen {
     private static final float DURATION = 4f; //Duration of the SplashScreen
-    private Core core;
     private Stage stage;
     private SplashSprite splashSprite;
 
-    public SplashScreen(final Core core) {
-        this.core = core;
+    public SplashScreen() {
 
         stage = new Stage(new StretchViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT));
 
@@ -32,7 +29,7 @@ public class SplashScreen implements Screen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                core.setScreen(new MainMenuScreen(core));
+                //core.setScreen(new MainMenuScreen(core));
             }
         }, DURATION);
     }
