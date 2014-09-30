@@ -18,16 +18,17 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Manager {
-    private ShapeRenderer shapeRenderer;
+    //private ShapeRenderer shapeRenderer;
     private SynchronousArrayList<Entity> entities;
     private boolean debug = true;
     private Map map;
+    private int prevSize = -1;
 
     public Manager() {
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setColor(Color.RED);
         map = new Map(60, 60);
         entities = new SynchronousArrayList<Entity>();
+        //shapeRenderer = new ShapeRenderer();
+        //shapeRenderer.setColor(Color.RED);
     }
 
     public ArrayList<Entity> getEntities() {
@@ -38,13 +39,15 @@ public abstract class Manager {
         return temp;
     }
 
-    public void addEntity(Entity entity){
-       addInternalEntity(entity);
+    public void addEntity(Entity entity) {
+        addInternalEntity(entity);
     }
 
-    protected void addInternalEntity(Entity entity){
+    protected void addInternalEntity(Entity entity) {
+        System.out.println("Entity" + entity.getId() + " added");
         entity.setMap(map);
         entities.add(entity);
+        System.out.println("Size: " + entities.size());
     }
 
     public void removeEntity(Entity entity) {
@@ -67,17 +70,22 @@ public abstract class Manager {
     protected abstract void updateEntities(float deltaT);
 
     public void draw(SpriteBatch spriteBatch) {
+        if (entities.size() != prevSize) {
+            System.out.println("Size: " + entities.size());
+            prevSize = entities.size();
+        }
         for (Entity entity : entities) {
+            System.out.println("entities drawn");
             entity.draw(spriteBatch);
             if (debug) {
-                if(entity instanceof Wall)
-                    shapeRenderer.setColor(Color.RED);
-                else
-                    shapeRenderer.setColor(Color.GREEN);
-                shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                //TODO get width and height of object and draw rect
-                shapeRenderer.end();
+                // if(entity instanceof Wall)
+                //     shapeRenderer.setColor(Color.RED);
+                // else
+                //     shapeRenderer.setColor(Color.GREEN);
+                // shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
+                // shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                // //TODO get width and height of object and draw rect
+                // shapeRenderer.end();
             }
         }
     }

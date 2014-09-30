@@ -7,6 +7,7 @@ import com.deeep.core.network.mutual.packets.WinPacket;
 import com.deeep.core.network.server.ConnectionListeners;
 import com.deeep.core.network.server.ServerLoop;
 import com.deeep.core.system.Constants;
+import com.deeep.core.util.AbstractGame;
 import com.deeep.tictactoe.entities.MoveCross;
 import com.deeep.tictactoe.entities.MoveZero;
 import com.esotericsoftware.kryonet.Connection;
@@ -25,8 +26,12 @@ public class ServerGame {
     boolean draw = false;
     private ServerLoop serverLoop;
 
-    public ServerGame(final ServerLoop serverLoop) {
-        this.serverLoop = serverLoop;
+    public ServerGame() {
+    }
+
+    public void start() {
+        serverLoop = new ServerLoop();
+        serverLoop.start();
 
         field = new int[3][3];
         for (int x = 0; x < 3; x++) {
@@ -37,6 +42,7 @@ public class ServerGame {
 
         setListeners();
     }
+
 
     private void setListeners() {
         serverLoop.getConnectionListeners().connection = new ConnectionListeners.ConnectionInterface() {

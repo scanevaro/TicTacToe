@@ -1,10 +1,8 @@
 package com.deeep.core.graphics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.deeep.core.util.Logger;
 
 /**
@@ -27,22 +25,6 @@ public class Assets {
      * The atlases containing all the images
      */
     private TextureAtlas textureAtlas;
-
-    /**
-     * Skin for menus and buttons
-     */
-    private Skin skin;
-
-    /**
-     * Logo for SplashScreen
-     */
-    private Texture logo;
-
-    /**
-     * Game Title
-     */
-    private Texture title;
-
     /**
      * Logger instance
      */
@@ -60,15 +42,13 @@ public class Assets {
         return assets;
     }
 
+
     /**
      * function to load everything. Nothing special. TODO add more resources here( sound music etc)
      */
     public void load() {
         if (!loaded) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("images/TextureAtlas.txt"));
-            skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-            logo = new Texture(Gdx.files.internal("data/logo.png"));
-            title = new Texture(Gdx.files.internal("data/title.png"));
             logger.system(Assets.class, "All assets have been loaded");
             loaded = true;
         }
@@ -81,27 +61,18 @@ public class Assets {
      * @return the texture region connected to the name
      */
     public TextureRegion getRegion(String name) {
+
         TextureRegion textureRegion = textureAtlas.findRegion(name);
         if (textureRegion == null) {
-            logger.error(Assets.class, "Unkown texture requested: " + name);
+            logger.error(Assets.class, "Unknown texture requested: " + name);
         }
         return textureAtlas.findRegion(name);
     }
 
-    public Skin getSkin() {
-        return skin;
-    }
-
-    public Texture getLogo() {
-        return logo;
-    }
-
-    public Texture getTitle() {
-        return title;
-    }
-
     public void dispose() {
-        textureAtlas.dispose();
-        skin.dispose();
+        if (textureAtlas != null)
+            textureAtlas.dispose();
+        else
+            logger.warn(this.getClass(),"No disposable assets");
     }
 }

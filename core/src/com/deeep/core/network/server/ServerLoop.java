@@ -14,7 +14,11 @@ import java.util.ArrayList;
  * Time: 10:28 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ServerLoop {
+public class ServerLoop implements Runnable {
+    /**
+     * Tick time in ms, once every tickTime everything will be updated. Or later. But never sooner
+     */
+    public static int tickTime = 40;
     /**
      * Instance to send data trough
      */
@@ -42,7 +46,16 @@ public class ServerLoop {
     /**
      * Some world
      */
-    private World world;
+    //private World world;
+    /**
+     * Whether the server is running, or stopped
+     */
+    private boolean running = false;
+    /**
+     * The thread containing the server. Not sure why this is needed TODO
+     */
+    private Thread thread = null;
+
 
     private ConnectionListeners connectionListeners;
 
@@ -97,19 +110,9 @@ public class ServerLoop {
             }
         }));
         Logger.getInstance().system(this.getClass(), "Listeners added");
-    }
-
-    /**
-     * Updates all the entities and processes the packet
-     *
-     * @param deltaT the time that has passed
-     */
-    public void update(float deltaT) {
-        serverManager.update(deltaT);
-        playerManager.update(deltaT);
-        for (int i = 0, l = betterServer.getSize(); i < l; i++) {
-            actPacket(betterServer.getReceivedPacket());
-        }
+        running = true;
+        thread = new Thread(this);
+        thread.start();
     }
 
     /**
@@ -159,5 +162,26 @@ public class ServerLoop {
 
     public BetterServer getBetterServer() {
         return betterServer;
+    }
+
+    @Override
+    public void run() {
+        long delayTime = 0;
+        Logger.getInstance().system(this.getClass(), "Server thread started");
+        while (running) {
+            long startTime = System.currentTimeMillis();
+            serverManager.update(tickTime);
+            playerManager.update(tickTime);
+            for (int i = 0, l = betterServer.getSize(); i < l; i++) {
+                actPacket(betterServer.getReceivedPacket());
+            }
+            if ((delayTime = tickTime - (startTime - System.currentTimeMillis())) > 0) {
+                try {
+                    Thread.sleep(delayTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

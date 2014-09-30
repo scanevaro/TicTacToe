@@ -1,35 +1,42 @@
-package com.deeep.core.graphics;
+package com.deeep.core.system;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.deeep.core.controlls.NetworkTouchController;
 import com.deeep.core.entity.World;
-import com.deeep.core.entity.abstraction.Manager;
+import com.deeep.core.graphics.Assets;
 import com.deeep.core.gui.Canvas;
 import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.PacketListener;
-import com.deeep.core.network.mutual.packets.EntityCreationPacket;
-import com.deeep.core.network.mutual.packets.PositionPacket;
-import com.deeep.core.network.mutual.packets.ReceivedPacket;
-import com.deeep.core.system.Constants;
-import com.deeep.core.system.Core;
+import com.deeep.core.network.mutual.packets.*;
+import com.deeep.core.network.server.ServerLoop;
+import com.deeep.core.util.AbstractGame;
 import com.deeep.core.util.Logger;
+import com.deeep.core.util.UpdateAble;
 
+import java.util.ArrayList;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Elmar
- * Date: 9/29/13
- * Time: 10:16 AM
- * To change this template use File | Settings | File Templates.
+ * Created by Elmar on 9/26/2014.
  */
-public class GameScreen implements Screen {
+public abstract class ClientCore extends AbstractGame implements Screen {
+    /**
+     * Updates. TODO Hook the server in here?
+     */
+    private ArrayList<UpdateAble> updateListeners = new ArrayList<UpdateAble>();
+    /**
+     * Object handling all the netcode
+     */
+    protected ClientLoop clientLoop;
+    /**
+     * Touch controller. TODO should this really be here?
+     */
+    private NetworkTouchController networkTouchController;
     /**
      * The camera controlling the viewing
      */
@@ -43,10 +50,6 @@ public class GameScreen implements Screen {
      */
     private Logger logger = Logger.getInstance();
     /**
-     * The core system. Use this to switch screens
-     */
-    private Core core;
-    /**
      * The world which should contain all the game play and entities
      */
     private World world;
@@ -55,34 +58,16 @@ public class GameScreen implements Screen {
      */
     private Rectangle viewport;
     private Canvas canvas;
-    public static ShapeRenderer shapeRenderer;
-    private ClientLoop clientLoop;
 
-    /**
-     * Constructor
-     *
-     * @param core the game Core
-     */
-    public GameScreen(Core core, ClientLoop clientLoop) {
-        this.core = core;
-        this.clientLoop = clientLoop;
-
-        canvas = new Canvas((int) Constants.VIRTUAL_WIDTH, (int) Constants.VIRTUAL_HEIGHT);
-        shapeRenderer = new ShapeRenderer();
-
-        spriteBatch = new SpriteBatch(5);           //TODO tune this
-        world = new World();
-
-        cam = new OrthographicCamera(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
-        cam.position.set(Constants.VIRTUAL_WIDTH / 2, Constants.VIRTUAL_HEIGHT / 2, 0);
-
-        shapeRenderer.setProjectionMatrix(cam.combined);
+    public ClientCore(String ip) {
+        //TODO return something when it goes wrong
+        clientLoop = new ClientLoop();
+        networkTouchController = new NetworkTouchController(clientLoop);
+        connect(ip);
 
         clientLoop.addListener(new PacketListener(EntityCreationPacket.class, new PacketListener.PacketAction() {
             @Override
             public void action(ReceivedPacket receivedPacket) {
-                System.out.println("CreationPacket received");
-                System.out.println(receivedPacket);
                 world.getEntityManager().addEntity((EntityCreationPacket) receivedPacket.containedPacket);
             }
         }));
@@ -92,64 +77,69 @@ public class GameScreen implements Screen {
                 world.getEntityManager().moveEntity((PositionPacket) receivedPacket.containedPacket);
             }
         }));
+        clientLoop.addListener(new PacketListener(PingPacket.class, new PacketListener.PacketAction() {
+            @Override
+            public void action(ReceivedPacket receivedPacket) {
+                long ping = (System.nanoTime() - ((PingPacket) receivedPacket.containedPacket).time) / 1000;
+                Logger.getInstance().debug(this.getClass(), "Ping: " + ping);
+            }
+        }));
+        clientLoop.addListener(new PacketListener(TouchPacket.class, new PacketListener.PacketAction() {
+            @Override
+            public void action(ReceivedPacket receivedPacket) {
+                Logger.getInstance().debug(this.getClass(), "Touched: " + receivedPacket.containedPacket.toString());
+            }
+        }));
+
     }
 
+    @Override
+    public void create() {
+        viewport = new Rectangle(0, 0, 0, 0);
+        canvas = new Canvas((int) Constants.VIRTUAL_WIDTH, (int) Constants.VIRTUAL_HEIGHT);
+
+        spriteBatch = new SpriteBatch(5);           //TODO tune this
+        world = new World();
+
+        cam = new OrthographicCamera(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
+        cam.position.set(Constants.VIRTUAL_WIDTH / 2, Constants.VIRTUAL_HEIGHT / 2, 0);
+        onGDXLoad();
+    }
+
+    public abstract void onGDXLoad();
+
+    protected void connect(String ip) {
+        clientLoop.connect(ip);
+    }
+
+
     /**
-     * Called when the screen should render itself.
-     *
-     * @param delta The time in seconds since the last render.
+     * This should in the future render a background
      */
     @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
+        clientLoop.update(deltaTime);
+        networkTouchController.update(deltaTime);
+        clientUpdate(deltaTime);
+        world.update(deltaTime);
+        canvas.update(deltaTime);
+
         cam.update();
         Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setProjectionMatrix(cam.combined);
-        shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(0, 0, Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
-        shapeRenderer.end();
-        update(delta);
-        draw();
-    }
-
-    public Manager getManager() {
-        return world.getEntityManager();
-    }
-
-    /**
-     * All the updating should go in here
-     *
-     * @param deltaT The time in seconds since the last render
-     */
-    public void update(float deltaT) {
-        canvas.update(deltaT);
-        world.update(deltaT);
-    }
-
-    /**
-     * Drawing happens here
-     */
-    public void draw() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.RED);
-        for (int i = 0; i < 4; i++) {
-            shapeRenderer.line(i * (Constants.VIRTUAL_HEIGHT / 3), 0, i * (Constants.VIRTUAL_HEIGHT / 3), Constants.VIRTUAL_HEIGHT);
-            shapeRenderer.line(0, i * (Constants.VIRTUAL_HEIGHT / 3), Constants.VIRTUAL_HEIGHT, i * (Constants.VIRTUAL_HEIGHT / 3));
-        }
-        shapeRenderer.end();
+        spriteBatch.setProjectionMatrix(cam.combined);
         world.draw(spriteBatch);
         canvas.draw(spriteBatch);
+        clientDraw(spriteBatch);
 
-        if (clientLoop.winPacket != null) {
-            if (clientLoop.winPacket.crossWin)
-                System.out.println("Cross Won");
-            else if (clientLoop.winPacket.draw)
-                System.out.println("DRAW");
-            else
-                System.out.println("Zero Win");
+        for (UpdateAble updateAble : updateListeners) {
+            updateAble.update(deltaTime);
         }
     }
+
+    public abstract void clientUpdate(float deltaTime);
+
+    public abstract void clientDraw(SpriteBatch spriteBatch);
+
 
     /**
      * @see com.badlogic.gdx.ApplicationListener#resize(int, int)
@@ -173,7 +163,7 @@ public class GameScreen implements Screen {
         float w = Constants.VIRTUAL_WIDTH * scale;
         float h = Constants.VIRTUAL_HEIGHT * scale;
         viewport = new Rectangle(crop.x, crop.y, w, h);
-        //canvas.resize((int) viewport.width, (int) viewport.height);
+        canvas.resize((int) viewport.width, (int) viewport.height);
     }
 
     /**
@@ -210,6 +200,7 @@ public class GameScreen implements Screen {
      */
     @Override
     public void dispose() {
-        logger.debug(((Object) this).getClass(), "Disposing");
+        super.dispose();
+        Assets.getAssets().dispose();
     }
 }

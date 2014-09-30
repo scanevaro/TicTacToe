@@ -2,7 +2,6 @@ package com.deeep.core.util;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.deeep.core.system.Core;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,18 +11,14 @@ import com.deeep.core.system.Core;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class AbstractScreen implements Screen {
-    /** Core reference to switch the screen */
-    private Core core;
     /** Spritebatch to draw everything on */
     private SpriteBatch spriteBatch;
 
     /**
      * Constructor
      *
-     * @param core reference to the core
      */
-    public AbstractScreen(Core core) {
-        this.core = core;
+    public AbstractScreen() {
         this.spriteBatch = new SpriteBatch();
     }
 
@@ -39,10 +34,6 @@ public abstract class AbstractScreen implements Screen {
         draw(spriteBatch);
         spriteBatch.end();
         //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public Core getCore() {
-        return core;
     }
 
     public abstract void draw(SpriteBatch spriteBatch);
