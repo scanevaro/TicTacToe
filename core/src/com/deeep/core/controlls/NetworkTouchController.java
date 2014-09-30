@@ -11,8 +11,6 @@ import com.sun.org.apache.bcel.internal.classfile.ConstantNameAndType;
  * Created by scanevaro on 24/09/2014.
  */
 public class NetworkTouchController {
-    public static final float SEND_INTERVAL = 0.1f;
-    private float timer = 0;
     private ClientLoop clientLoop;
     private NetGestures netController;
 
@@ -22,14 +20,11 @@ public class NetworkTouchController {
     }
 
     public void update(float deltaT) {
-        if (timer >= SEND_INTERVAL) {
-            netController.update();
-            if (netController.isChanged()) {
-                clientLoop.getClient().sendTcp(netController.getTouchPacket());
-            }
-            timer -= SEND_INTERVAL;
+        netController.update();
+        if (netController.isChanged()) {
+            clientLoop.getClient().sendTcp(netController.getTouchPacket());
         }
-        timer += deltaT;
+
     }
 
     public class NetGestures {
