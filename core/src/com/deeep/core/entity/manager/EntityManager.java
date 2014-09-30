@@ -45,7 +45,6 @@ public class EntityManager extends Manager {
         }
         entity.clientCreated();
         entity.setPosition(entityCreation.x, entityCreation.y);
-        System.out.println("creation -> x: " + entityCreation.x + " y: " + entityCreation.y);
         integerEntityHashMap.put(entityCreation.id, entity);
         super.addEntity(entity);
     }

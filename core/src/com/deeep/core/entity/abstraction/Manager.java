@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.deeep.core.system.Constants;
+import com.deeep.core.util.Logger;
 import com.deeep.core.util.SynchronousArrayList;
 import com.deeep.core.entity.Map;
 import com.deeep.core.entity.types.Wall;
@@ -18,11 +19,11 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Manager {
-    //private ShapeRenderer shapeRenderer;
+    private ShapeRenderer shapeRenderer;
     private SynchronousArrayList<Entity> entities;
     private boolean debug = true;
     private Map map;
-    private int prevSize = -1;
+    private Logger logger = Logger.getInstance();
 
     public Manager() {
         map = new Map(60, 60);
@@ -44,13 +45,17 @@ public abstract class Manager {
     }
 
     protected void addInternalEntity(Entity entity) {
-        System.out.println("Entity" + entity.getId() + " added");
         entity.setMap(map);
         entities.add(entity);
-        System.out.println("Size: " + entities.size());
+        if (debug) {
+            logger.debug(this.getClass(), "Adding entity: " + entity.toString());
+        }
     }
 
     public void removeEntity(Entity entity) {
+        if (debug) {
+            logger.debug(this.getClass(), "Removing entity: " + entity.toString());
+        }
         entities.removeSynchronous(entity);
     }
 
@@ -58,7 +63,6 @@ public abstract class Manager {
         for (Entity entity : entities) {
             entity.update(deltaT);
             updateSingleEntity(entity);
-            if (debug) ;
         }
         updateEntities(deltaT);
         map.checkCollisions();
@@ -70,14 +74,10 @@ public abstract class Manager {
     protected abstract void updateEntities(float deltaT);
 
     public void draw(SpriteBatch spriteBatch) {
-        if (entities.size() != prevSize) {
-            System.out.println("Size: " + entities.size());
-            prevSize = entities.size();
-        }
         for (Entity entity : entities) {
-            System.out.println("entities drawn");
             entity.draw(spriteBatch);
             if (debug) {
+                //TODO this whole section here
                 // if(entity instanceof Wall)
                 //     shapeRenderer.setColor(Color.RED);
                 // else

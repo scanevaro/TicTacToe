@@ -40,9 +40,6 @@ public class MoveZero extends Entity {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        if (mapX == -1)
-            return;
-        System.out.println("being drawn");
         shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.BLUE);

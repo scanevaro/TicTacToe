@@ -40,7 +40,6 @@ public class MoveCross extends Entity {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        System.out.println("being drawn cross");
         shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GREEN);
