@@ -19,6 +19,7 @@ public class ServerLoop implements Runnable {
      * Tick time in ms, once every tickTime everything will be updated. Or later. But never sooner
      */
     public static int tickTime = 40;
+    private String gameId = "";
     /**
      * Instance to send data trough
      */
@@ -58,6 +59,10 @@ public class ServerLoop implements Runnable {
 
 
     private ConnectionListeners connectionListeners;
+
+    public ServerLoop(String gameId) {
+        this.gameId = gameId;
+    }
 
     /**
      * Starts the server and initialize all the instances.

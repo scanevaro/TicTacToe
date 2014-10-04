@@ -60,9 +60,9 @@ public abstract class ClientCore extends AbstractGame {
     private Rectangle viewport;
     private Canvas canvas;
 
-    public ClientCore(String ip) {
+    public ClientCore(String ip, String gameId, String name) {
         //TODO return something when it goes wrong
-        clientLoop = new ClientLoop();
+        clientLoop = new ClientLoop(gameId, name);
         networkTouchController = new NetworkTouchController(clientLoop);
         connect(ip);
 

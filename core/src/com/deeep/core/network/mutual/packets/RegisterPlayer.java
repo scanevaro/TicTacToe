@@ -1,5 +1,7 @@
 package com.deeep.core.network.mutual.packets;
 
+import com.deeep.core.network.mutual.ConnectionOptions;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar
@@ -9,10 +11,11 @@ package com.deeep.core.network.mutual.packets;
  */
 public class RegisterPlayer extends Packet {
     public String name;
-    public int skinId;
+    public String gameId;
+    public ConnectionOptions connectionOptions;
 
     @Override
     public String toString() {
-        return name + " " + skinId;
+        return name + " " + gameId + connectionOptions.toString();
     }
 }
