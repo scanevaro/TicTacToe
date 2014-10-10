@@ -38,6 +38,7 @@ public class Game implements ApplicationListener {
         viewport = new Rectangle();
 
         setScreen(new SplashScreen());
+
     }
 
     /**
