@@ -2,21 +2,14 @@ package com.deeep.core.system;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.deeep.core.controlls.NetworkTouchController;
 import com.deeep.core.entity.World;
-import com.deeep.core.graphics.Assets;
 import com.deeep.core.gui.Canvas;
 import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.*;
-import com.deeep.core.network.server.ServerLoop;
-import com.deeep.core.util.AbstractGame;
+import com.deeep.core.util.Game;
 import com.deeep.core.util.Logger;
 import com.deeep.core.util.UpdateAble;
 
@@ -25,7 +18,11 @@ import java.util.ArrayList;
 /**
  * Created by Elmar on 9/26/2014.
  */
-public abstract class ClientCore extends AbstractGame {
+public abstract class ClientCore implements Screen {
+    /**
+     * Main instance of the game
+     */
+    private Game game;
     /**
      * Updates. TODO Hook the server in here?
      */
@@ -39,10 +36,6 @@ public abstract class ClientCore extends AbstractGame {
      */
     private NetworkTouchController networkTouchController;
     /**
-     * The camera controlling the viewing
-     */
-    private OrthographicCamera cam;
-    /**
      * The spritebatch to draw everything to
      */
     private SpriteBatch spriteBatch;
@@ -55,12 +48,14 @@ public abstract class ClientCore extends AbstractGame {
      */
     private World world;
     /**
-     * The viewport for the game. Should handle all the resizing
+     * Canvas handles the UI
      */
-    private Rectangle viewport;
     private Canvas canvas;
 
     public ClientCore(String ip, String gameId, String name) {
+        this.game = (Game) Gdx.app.getApplicationListener();
+        this.spriteBatch = game.getSpriteBatch();
+
         //TODO return something when it goes wrong
         clientLoop = new ClientLoop(gameId, name);
         networkTouchController = new NetworkTouchController(clientLoop);
@@ -94,29 +89,12 @@ public abstract class ClientCore extends AbstractGame {
 
     }
 
-    @Override
-    public void create() {
-        viewport = new Rectangle(0, 0, 0, 0);
-        canvas = new Canvas((int) Constants.VIRTUAL_WIDTH, (int) Constants.VIRTUAL_HEIGHT);
-
-        spriteBatch = new SpriteBatch(5);           //TODO tune this
-        world = new World();
-
-        cam = new OrthographicCamera(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT);
-        cam.position.set(Constants.VIRTUAL_WIDTH / 2, Constants.VIRTUAL_HEIGHT / 2, 0);
-        onGDXLoad();
-    }
-
     public abstract void onGDXLoad();
 
     protected void connect(String ip) {
         clientLoop.connect(ip);
     }
 
-
-    /**
-     * This should in the future render a background
-     */
     @Override
     public void render(float deltaTime) {
         clientLoop.update(deltaTime);
@@ -125,10 +103,6 @@ public abstract class ClientCore extends AbstractGame {
         world.update(deltaTime);
         canvas.update(deltaTime);
 
-        cam.update();
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // This cryptic line clears the screen.
-        Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-        spriteBatch.setProjectionMatrix(cam.combined);
         world.draw(spriteBatch);
         canvas.draw(spriteBatch);
         clientDraw(spriteBatch);
@@ -142,38 +116,10 @@ public abstract class ClientCore extends AbstractGame {
 
     public abstract void clientDraw(SpriteBatch spriteBatch);
 
-
-    /**
-     * @see com.badlogic.gdx.ApplicationListener#resize(int, int)
-     */
-    @Override
     public void resize(int width, int height) {
-        float aspectRatio = (float) width / (float) height;
-        float scale;
-
-        Vector2 crop = new Vector2(0f, 0f);
-        if (aspectRatio > Constants.VIRTUAL_ASPECT) {
-            scale = (float) height / Constants.VIRTUAL_HEIGHT;
-            crop.x = (width - Constants.VIRTUAL_WIDTH * scale) / 2f;
-        } else if (aspectRatio < Constants.VIRTUAL_ASPECT) {
-            scale = (float) width / Constants.VIRTUAL_WIDTH;
-            crop.y = (height - Constants.VIRTUAL_HEIGHT * scale) / 2f;
-        } else {
-            scale = (float) width / Constants.VIRTUAL_WIDTH;
-        }
-
-        float w = Constants.VIRTUAL_WIDTH * scale;
-        float h = Constants.VIRTUAL_HEIGHT * scale;
-        viewport = new Rectangle(crop.x, crop.y, w, h);
-        canvas.resize((int) viewport.width, (int) viewport.height);
     }
 
-    /**
-     * Called when this screen should release all resources.
-     */
     @Override
     public void dispose() {
-        super.dispose();
-        Assets.getAssets().dispose();
     }
 }

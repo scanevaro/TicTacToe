@@ -3,12 +3,10 @@ package com.deeep.tictactoe;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.deeep.core.network.client.ClientLoop;
 import com.deeep.core.network.mutual.PacketListener;
 import com.deeep.core.network.mutual.packets.ChatPacket;
 import com.deeep.core.network.mutual.packets.ReceivedPacket;
 import com.deeep.core.network.mutual.packets.WinPacket;
-import com.deeep.core.network.server.ServerLoop;
 import com.deeep.core.system.ClientCore;
 import com.deeep.core.system.Constants;
 import com.deeep.core.util.Logger;
@@ -16,11 +14,15 @@ import com.deeep.core.util.Logger;
 /**
  * Created by Elmar on 9/26/2014.
  */
-public class ClientGame extends ClientCore {
+public class ClientScreen extends ClientCore {
     private ShapeRenderer shapeRenderer;
 
-    public ClientGame(String ip, String gameId, String name) {
+    public ClientScreen(String ip, String gameId, String name) {
         super(ip, gameId, name);
+
+        ServerGame serverGame = new ServerGame();
+        serverGame.start();
+
         clientLoop.addListener(new PacketListener(ChatPacket.class, new PacketListener.PacketAction() {
             @Override
             public void action(ReceivedPacket receivedPacket) {
@@ -55,5 +57,21 @@ public class ClientGame extends ClientCore {
             shapeRenderer.line(0, i * (Constants.VIRTUAL_HEIGHT / 3), Constants.VIRTUAL_HEIGHT, i * (Constants.VIRTUAL_HEIGHT / 3));
         }
         shapeRenderer.end();
+    }
+
+    @Override
+    public void show() {
+    }
+
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
     }
 }

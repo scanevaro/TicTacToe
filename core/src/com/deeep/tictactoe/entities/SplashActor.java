@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 /**
  * Created by scanevaro on 26/09/2014.
  */
-public class SplashSprite extends Actor {
+public class SplashActor extends Actor {
     private Sprite sprite;
 
-    public SplashSprite(Sprite sprite) {
+    public SplashActor(Sprite sprite) {
         this.sprite = sprite;
 
         setActions();

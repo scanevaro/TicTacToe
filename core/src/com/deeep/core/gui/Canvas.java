@@ -15,13 +15,10 @@ import java.util.ArrayList;
  */
 public class Canvas {
     private ArrayList<GuiElement> guiElements;
-    private int width, height;
     private Vector2 mouseVector;
 
-    public Canvas(int width, int height) {
+    public Canvas() {
         guiElements = new ArrayList<GuiElement>();
-        this.width = width;
-        this.height = height;
         this.mouseVector = new Vector2(0, 0);
     }
 
@@ -43,8 +40,6 @@ public class Canvas {
     }
 
     public void resize(int width, int height) {
-        this.width = width;
-        this.height = height;
         for (GuiElement guiElement : guiElements) {
             guiElement.resize(width, height);
         }

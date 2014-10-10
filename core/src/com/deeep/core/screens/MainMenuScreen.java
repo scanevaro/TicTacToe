@@ -1,4 +1,4 @@
-package com.deeep.core.graphics;
+package com.deeep.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,12 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.deeep.core.graphics.Assets;
 import com.deeep.core.system.Constants;
+import com.deeep.core.util.Game;
 
 /**
  * Created by scanevaro on 26/09/2014.
  */
 public class MainMenuScreen implements Screen {
+    private Game game;
     private Stage stage;
 
     private TextButton hostButton;
@@ -25,14 +28,15 @@ public class MainMenuScreen implements Screen {
     private TextButton twoPlayersutton;
 
     public MainMenuScreen() {
+        game = (Game) Gdx.app.getApplicationListener();
 
-        //Instanciate Stage
-        stage = new Stage(new StretchViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT));
+        stage = new Stage(new StretchViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT), game.getSpriteBatch());
 
-        //Set input processor
+        // set input processor
         Gdx.input.setInputProcessor(stage);
 
         setActors();
+        configureActors();
         setListeners();
         setLayout();
     }
@@ -44,25 +48,32 @@ public class MainMenuScreen implements Screen {
         twoPlayersutton = new TextButton("Two Players", Assets.getAssets().getSkin());
     }
 
+    private void configureActors() {
+    }
+
     private void setListeners() {
         hostButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+//                game.setScreen(new ClientScreen());
+                game.setScreen(new GameScreen());
             }
         });
+
         joinButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
             }
         });
+
         spectateButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
             }
         });
+
         twoPlayersutton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
