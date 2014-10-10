@@ -19,8 +19,8 @@ import com.deeep.core.util.Logger;
 public class ClientGame extends ClientCore {
     private ShapeRenderer shapeRenderer;
 
-    public ClientGame(String ip) {
-        super(ip);
+    public ClientGame(String ip, String gameId, String name) {
+        super(ip, gameId, name);
         clientLoop.addListener(new PacketListener(ChatPacket.class, new PacketListener.PacketAction() {
             @Override
             public void action(ReceivedPacket receivedPacket) {

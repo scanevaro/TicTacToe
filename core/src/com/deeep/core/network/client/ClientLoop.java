@@ -22,8 +22,8 @@ public class ClientLoop {
     private float pingTimer = 0;
     public WinPacket winPacket;
 
-    public ClientLoop() {
-        betterClient = new BetterClient();
+    public ClientLoop(String gameId, String name) {
+        betterClient = new BetterClient(gameId, name);
         packetListeners = new ArrayList<PacketListener>();
     }
 

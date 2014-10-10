@@ -22,6 +22,7 @@ public class Network {
         kryo.register(Packet.class);
         kryo.register(PositionPacket.class);
         kryo.register(RegisterPlayer.class);
+        kryo.register(ConnectionOptions.class);
         kryo.register(ChatPacket.class);
         kryo.register(ControlPacket.class);
         kryo.register(EntityCreationPacket.class);
